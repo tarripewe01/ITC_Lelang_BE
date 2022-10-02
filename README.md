@@ -1,21 +1,22 @@
 # ITC Lelang BE
 
 1. Setup
-- [] Database MongoDB
-- [] Authentication and Authorization using JWT as Middleware
-- [] Hash password
+- [x] Database MongoDB
+- [x] Authentication and Authorization using JWT as Middleware
+- [x] Hash password
 
 2. Endpoint
 
 - User
-- [] CREATE 
-- [] READ 
-- [] UPDATE 
-- [] DELETE 
+- [x] CREATE 
+- [x] READ 
+- [x] READById
+- [x] UPDATE 
+- [x] DELETE 
 
 - Product
-- [] CREATE 
-- [] READ 
-- [] READById
-- [] UPDATE 
-- [] DELETE 
+- [x] CREATE 
+- [x] READ 
+- [x] READById
+- [x] UPDATE 
+- [x] DELETE 

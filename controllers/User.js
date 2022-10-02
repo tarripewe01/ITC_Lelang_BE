@@ -6,7 +6,20 @@ require("dotenv").config();
 const secret_key = process.env.REACT_APP_SECRET_KEY;
 
 const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const {
+    email,
+    password,
+    nama_lengkap,
+    mobile,
+    jenis_kelamin,
+    alamat,
+    no_ktp,
+    no_npwp,
+    bank,
+    no_rekening,
+    photo_profil,
+    username,
+  } = req.body;
 
   try {
     const oldUser = await UserModel.findOne({ email });
@@ -18,9 +31,18 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const result = await UserModel.create({
-      username,
+      nama_lengkap,
       email,
       password: hashedPassword,
+      mobile,
+      jenis_kelamin,
+      alamat,
+      no_ktp,
+      no_npwp,
+      bank,
+      no_rekening,
+      photo_profil,
+      username,
     });
 
     const token = jwt.sign(
@@ -32,8 +54,7 @@ const register = async (req, res) => {
     );
     res.status(201).json({ result, token });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
-    console.log(error);
+    res.status(500).json(error);
   }
 };
 
@@ -48,7 +69,7 @@ const login = async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Invalid Credentials" });
+      return res.status(400).json({ message: "Password Salah" });
 
     const token = jwt.sign(
       { id: oldUser._id, email: oldUser.email },
@@ -60,8 +81,7 @@ const login = async (req, res) => {
 
     res.status(200).json({ result: oldUser, token });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
-    console.log(error);
+    res.status(500).json(error);
   }
 };
 
@@ -70,8 +90,71 @@ const getUsers = async (req, res) => {
     const users = await UserModel.find();
     res.status(200).json(users);
   } catch (error) {
-    res.status(404).json({ message: "Something went wrong" });
+    res.status(500).json(error);
   }
 };
 
-module.exports = { getUsers, register, login };
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await UserModel.findById(id);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const {
+    nama_lengkap,
+    mobile,
+    jenis_kelamin,
+    alamat,
+    no_ktp,
+    no_npwp,
+    bank,
+    no_rekening,
+    photo_profil,
+  } = req.body;
+
+  try {
+    const formUpdateUser = {
+      nama_lengkap,
+      mobile,
+      jenis_kelamin,
+      alamat,
+      no_ktp,
+      no_npwp,
+      bank,
+      no_rekening,
+      photo_profil,
+      _id: id,
+    };
+    await UserModel.findByIdAndUpdate(id, formUpdateUser, { new: true });
+    res.json(formUpdateUser);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await UserModel.findByIdAndRemove(id);
+    res.json({ message: "Account Berhasil Dihapus" });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports = {
+  getUsers,
+  register,
+  login,
+  getUserById,
+  updateUser,
+  deleteUser,
+};

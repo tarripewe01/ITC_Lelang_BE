@@ -67,6 +67,7 @@ const updateProduct = async (req, res) => {
     bpkb,
     tanggal_mulai,
     tanggal_selesai,
+    status_lelang,
   } = req.body;
 
   try {
@@ -103,6 +104,7 @@ const updateProduct = async (req, res) => {
       bpkb,
       tanggal_mulai,
       tanggal_selesai,
+      status_lelang,
       _id: id,
     };
     await ProdukModel.findByIdAndUpdate(id, formUpdateProduk, { new: true });
