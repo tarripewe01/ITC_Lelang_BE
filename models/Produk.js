@@ -135,15 +135,11 @@ const productSchema = mongoose.Schema(
     },
     bpkb: {
       type: String,
-      enum: ["Ready", "14 hari kerja"],
+      enum: ["Ready", "14 hari kerja", "30 hari kerja"],
     },
-    tanggal_mulai: {
-      type: Date,
-      default: new Date(),
-    },
-    tanggal_selesai: {
-      type: Date,
-      default: new Date(),
+    waktu_lelang: {
+      mulai: { type: String },
+      selesai: { type: String },
     },
     status_lelang: {
       type: String,
