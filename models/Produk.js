@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema(
   {
-    produkId: {
-      type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
     },
     cabang: {
       type: String,
@@ -21,8 +22,9 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    photo_produk: {
-      type: [String],
+    photo_path: {
+      type: String,
+      contentType: String,
     },
     harga: {
       type: Number,
@@ -43,12 +45,10 @@ const productSchema = mongoose.Schema(
     kondisi_interior: {
       type: String,
       enum: ["A", "B", "C", "D", "E", "F", "-"],
-      default: "-",
     },
     kategori_produk: {
       type: String,
       enum: ["Mobil", "Motor"],
-      required: true,
     },
     merk_produk: {
       type: String,
@@ -56,7 +56,7 @@ const productSchema = mongoose.Schema(
     },
     model_produk: {
       type: String,
-      required: false,
+      required: true,
     },
     tahun_produk: {
       type: Number,
@@ -126,27 +126,46 @@ const productSchema = mongoose.Schema(
     sph: {
       type: String,
       enum: ["Ada", "Tidak Ada", "-"],
-      default: "-",
     },
     keur: {
       type: String,
       enum: ["Ada", "Tidak Ada", "-"],
-      default: "-",
     },
     bpkb: {
       type: String,
       enum: ["Ready", "14 hari kerja", "30 hari kerja"],
     },
-    waktu_lelang: {
-      mulai: { type: String },
-      selesai: { type: String },
-    },
+    mulai: { type: String, required: true },
+    selesai: { type: String },
     status_lelang: {
       type: String,
       enum: ["0", "1"],
     },
+    favorite: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user",
+        },
+      },
+    ],
+    bid: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user",
+        },
+        nominal_bid: {
+          type: Number,
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("products", productSchema);
+module.exports = mongoose.model("product", productSchema);
