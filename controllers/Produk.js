@@ -124,9 +124,7 @@ const unfavorite = async (req, res) => {
 const createBid = async (req, res) => {
   try {
     const user = await UserModel.findById(req.user.id).select("-password");
-    console.log(user);
     const product = await ProdukModel.findById(req.params.id);
-    console.log(product);
 
     const { nominal_bid } = req.body;
 
@@ -136,8 +134,6 @@ const createBid = async (req, res) => {
       avatar: user.avatar,
       user: req.user.id,
     };
-
-    console.log(newBid);
 
     product.bids.unshift(newBid);
 
