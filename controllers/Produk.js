@@ -1,16 +1,36 @@
 
 const ProdukModel = require("../models/Produk");
 
-const createProduct = async (req, res) => {
-  const newProduk = new ProdukModel(req.body);
+// const createProduct = async (req, res) => {
+//   const newProduk = new ProdukModel(req.body);
 
-  try {
-    const savedProduk = await newProduk.save();
-    res.status(200).json(savedProduk);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+//   try {
+//     const savedProduk = await newProduk.save();
+//     res.status(200).json(savedProduk);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
+
+const createProduct = async (req, res) => {
+
+  const fileName = req.files.map((path) => {
+    return path.filename
+  })
+  let {photo_path, ...details} = req.body
+  photo_path = `/uploads/${fileName}`
+  const dat = {...details, photo_path}
+  const newData = new ProdukModel(dat)
+try {
+  const Data = await newData.save()
+  res.status(200).json({
+    Data: Data
+  })
+} catch (error) {
+  res.status(500).json(error.message)
+}
 };
+
 
 const getProducts = async (req, res) => {
   try {
