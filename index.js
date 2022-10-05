@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.APP_PORT || 8000;
-const MONGGODB_URL = process.env.REACT_APP_MONGODB_CONNECT;
+const MONGGODB_URL = process.env.REACT_APP_MONGODB_CONNECT || "mongodb+srv://Admin:Gemolong123@cluster0.kzouaau.mongodb.net/lelang?retryWrites=true&w=majority";
 
 // const userRouter = require("./routes/User");
 const produkRouter = require("./routes/Produk");
@@ -20,7 +20,8 @@ app.use(morgan("dev"));
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.json({ extended: false }));
-app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static('uploads'));
+app.use(express.static(__dirname));
 
 // API
 // app.use("/users", userRouter);

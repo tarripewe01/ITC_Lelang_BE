@@ -22,10 +22,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    photo_path: {
-      type: String,
-      contentType: String,
-    },
+    photo_path: [],
     harga: {
       type: Number,
       required: true,
