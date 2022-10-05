@@ -138,7 +138,7 @@ const productSchema = mongoose.Schema(
       type: String,
       enum: ["0", "1"],
     },
-    favorite: [
+    favorites: [
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
@@ -146,7 +146,7 @@ const productSchema = mongoose.Schema(
         },
       },
     ],
-    bid: [
+    bids: [
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
