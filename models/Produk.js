@@ -16,7 +16,6 @@ const productSchema = mongoose.Schema(
         "Pangkal Pinang",
         "Kalimantan",
       ],
-      default: "Jakarta",
     },
     nama_produk: {
       type: String,
@@ -82,7 +81,6 @@ const productSchema = mongoose.Schema(
     isActive: {
       type: String,
       enum: ["0", "1"],
-      default: "1",
     },
     catatan: {
       type: String,
@@ -130,10 +128,12 @@ const productSchema = mongoose.Schema(
     },
     bpkb: {
       type: String,
-      enum: ["Ready", "14 hari kerja", "30 hari kerja"],
+      enum: ["Ready","7 hari kerja",  "14 hari kerja", "30 hari kerja"],
     },
     mulai: { type: String, required: true },
-    selesai: { type: String },
+    selesai: { type: String, required: true },
+    waktu_mulai: { type: String, required: true },
+    waktu_selesai: { type: String, required: true },
     status_lelang: {
       type: String,
       enum: ["0", "1"],
