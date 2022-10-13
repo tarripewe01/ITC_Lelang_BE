@@ -15,8 +15,35 @@ const UserSchema = mongoose.Schema(
       type: String,
       require: true,
     },
-    avatar: {
+    user_path: {
       type: String,
+    },
+    phone: {
+      type: Number,
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: [1, 2],
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    no_ktp: {
+      type: Number,
+      required: true,
+    },
+    no_npwp: {
+      type: Number,
+    },
+    bank: {
+      type: String,
+      enum: ["BCA", "BNI", "BRI", "BTN", "Mandiri"],
+    },
+    no_rekening: {
+      type: Number,
+      required: true,
     },
   },
   { timestamps: true }

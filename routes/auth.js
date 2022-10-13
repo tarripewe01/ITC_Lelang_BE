@@ -1,6 +1,6 @@
 const express = require("express");
 const User = require("../models/users");
-const { getAuthUser } = require("../controllers/auth");
+const { getAuthUser } = require("../controllers/user");
 const router = express.Router();
 const auth = require("../middleware/auth");
 
@@ -13,7 +13,7 @@ const secret_key = process.env.REACT_APP_SECRET_KEY;
 router.get("/", auth, getAuthUser);
 
 router.post(
-  "/",
+  "/login",
   [
     check("email", "Please include a valid email").isEmail(),
     check("password", "Password is required").exists(),
