@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
     cabang: {
       type: String,
       enum: [
@@ -17,7 +21,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    product_path: [],
+    photo_path: [],
     harga: {
       type: Number,
       required: true,
@@ -52,6 +56,7 @@ const productSchema = mongoose.Schema(
     },
     tahun_produk: {
       type: Number,
+      required: true,
     },
     transmisi: {
       type: String,
@@ -75,7 +80,7 @@ const productSchema = mongoose.Schema(
     },
     isActive: {
       type: String,
-      enum: ["Aktif", "Tidak Aktif"],
+      enum: ['Aktif', 'Tidak Aktif'],
     },
     catatan: {
       type: String,
@@ -123,7 +128,7 @@ const productSchema = mongoose.Schema(
     },
     bpkb: {
       type: String,
-      enum: ["Ready","7 hari kerja",  "14 hari kerja", "30 hari kerja"],
+      enum: ["Ready","7 Hari Kerja",  "14 Hari Kerja", "30 Hari Kerja"],
     },
     tanggal_mulai: { type: String, required: true },
     tanggal_selesai: { type: String, required: true },
@@ -131,17 +136,9 @@ const productSchema = mongoose.Schema(
     waktu_selesai: { type: String, required: true },
     status_lelang: {
       type: String,
-      enum: ["Aktif", "Tidak Aktif"]
+      enum: ['Aktif', 'Tidak Aktif'],
     },
     favorites: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-        },
-      },
-    ],
-    dilihat: [
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
@@ -160,7 +157,7 @@ const productSchema = mongoose.Schema(
         },
         date: {
           type: Date,
-          default: Date.now(),
+          default: Date.now,
         },
       },
     ],

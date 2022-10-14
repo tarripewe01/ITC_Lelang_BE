@@ -15,7 +15,7 @@ const createProduct = async (req, res) => {
       await Promise.all(
         req.files.map(async (path) => {
           await ProdukModel.findByIdAndUpdate(data.id, {
-            $push : { product_path : `/uploads/${path.filename}` }
+            $push : { photo_path : `/uploads/${path.filename}` }
           }, {new : true})
         })
       )
@@ -49,83 +49,23 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const {
-    product_path,
-    cabang,
-    nama_produk,
-    harga,
-    no_lot,
-    kondisi_mesin,
-    kondisi_exterior,
-    kondisi_interior,
-    kategori_produk,
-    merk_produk,
-    model_produk,
-    tahun_produk,
-    transmisi,
-    no_rangka,
-    no_mesin,
-    kapasitas_mesin,
-    odometer,
-    isActive,
-    catatan,
-    no_polisi,
-    warna,
-    stnk,
-    exp_stnk,
-    faktur,
-    ktp,
-    kwitansi,
-    form_A,
-    sph,
-    keur,
-    bpkb,
-    tanggal_mulai,
-    tanggal_selesai,
-    waktu_mulai,
-    waktu_selesai,
-    status_lelang,
-  } = req.body;
-
   try {
-    const updateProduct = {
-      product_path,
-      cabang,
-      nama_produk,
-      harga,
-      no_lot,
-      kondisi_mesin,
-      kondisi_exterior,
-      kondisi_interior,
-      kategori_produk,
-      merk_produk,
-      model_produk,
-      tahun_produk,
-      transmisi,
-      no_rangka,
-      no_mesin,
-      kapasitas_mesin,
-      odometer,
-      isActive,
-      catatan,
-      no_polisi,
-      warna,
-      stnk,
-      exp_stnk,
-      faktur,
-      ktp,
-      kwitansi,
-      form_A,
-      sph,
-      keur,
-      bpkb,
-      tanggal_mulai,
-      tanggal_selesai,
-      waktu_mulai,
-      waktu_selesai,
-      status_lelang,
-    };
-    const product = await ProdukModel.findByIdAndUpdate(id, updateProduct, {
+    if(req.files){
+      await Promise.all(
+        req.files.map(async (path) => {
+          await ProdukModel.findByIdAndUpdate(id, {
+            $set : { photo_path : [] }
+          }, {new : true})
+        }),
+      ).then(() => {
+        req.files.map(async (path) => {
+          await ProdukModel.findByIdAndUpdate(id, {
+            $push : { photo_path : `/uploads/${path.filename}` }
+          }, {new : true})
+        })
+      })
+    }
+    const product = await ProdukModel.findByIdAndUpdate(id, req.body, {
       new: true,
     });
     res.status(200).json(product);

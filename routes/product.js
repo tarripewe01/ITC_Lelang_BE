@@ -13,10 +13,10 @@ const {
 } = require("../controllers/product");
 const upload = require("../middleware/upload");
 
-router.post("/", upload.any("product_path"),createProduct);
+router.post("/", upload.any("photo_path"),createProduct);
 router.get("/", getProducts);
 router.get("/:id", getProductById);
-router.put("/:id", updateProduct);
+router.put("/:id",upload.any("photo_path"), updateProduct);
 router.delete("/:id", deleteProduct);
 // router.put("/favorite/:id", favorite);
 // router.put("/unfavorite/:id", auth, unfavorite);
