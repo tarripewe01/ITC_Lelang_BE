@@ -11,8 +11,9 @@ const {
   // unfavorite,
   // createBid
 } = require("../controllers/product");
+const upload = require("../middleware/upload");
 
-router.post("/", createProduct);
+router.post("/", upload.any("product_path"),createProduct);
 router.get("/", getProducts);
 router.get("/:id", getProductById);
 router.put("/:id", updateProduct);

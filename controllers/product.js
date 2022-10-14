@@ -3,16 +3,27 @@ const UserModel = require("../models/users");
 
 const createProduct = async (req, res) => {
   const product = req.body;
+
   const newProduct = new ProdukModel({
     ...product,
     createdAt: new Date().toISOString(),
   });
 
   try {
-    await newProduct.save();
-    res.status(200).json(newProduct);
+    const data = await newProduct.save();
+    if(req.files){
+      await Promise.all(
+        req.files.map(async (path) => {
+          await ProdukModel.findByIdAndUpdate(data.id, {
+            $push : { product_path : `/uploads/${path.filename}` }
+          }, {new : true})
+        })
+      )
+    }
+    const respons = await ProdukModel.findById(data.id)
+    res.status(200).json(respons);
   } catch (error) {
-    res.status(404).json({ message: "Something went wrong !" });
+    res.status(404).json(error.message );
   }
 };
 
